@@ -2,7 +2,7 @@ package android.example.weatherwizard;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,9 +54,10 @@ public class InformationActivity extends AppCompatActivity {
         mwind=findViewById(R.id.wind_info);
         Intent intent = getIntent();
         String value = intent.getStringExtra("location");
-        String gps=intent.getStringExtra("gps");
-
-        new FetchData().execute(value,gps);
+        String gpspara=intent.getStringExtra("gps");
+        String latitude=""+intent.getDoubleExtra("latitude",0.0);
+        String longitude=""+intent.getDoubleExtra("longitude",0.0);
+        new FetchData().execute(value,gpspara,latitude,longitude);
 
 
     }
@@ -85,10 +86,17 @@ public class InformationActivity extends AppCompatActivity {
                 URL url;
                 String loc;
                 String gps;
+                String lat,longi;
                 loc = params[0];
                 gps=params[1];
-                url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + loc + "&APPID=a1e2a15fb9d52c5011d32ef1ee047782");
-
+                lat=params[2];
+                longi=params[3];
+                if(gps.matches("true")){
+                    url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+longi+"&APPID=a1e2a15fb9d52c5011d32ef1ee047782");
+                }
+                else {
+                    url=new URL("https://api.openweathermap.org/data/2.5/weather?q=" + loc + "&APPID=a1e2a15fb9d52c5011d32ef1ee047782");
+                }
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 if (httpURLConnection.getResponseCode() != 200) {
                     flag = false;
