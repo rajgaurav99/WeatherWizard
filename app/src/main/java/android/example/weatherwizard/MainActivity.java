@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestLocationPermission();
-            return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(intent);
                 }
                 else{
-                    Snackbar.make(view, "GPS functionality not yet added", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(view, "Unable to fetch location", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
